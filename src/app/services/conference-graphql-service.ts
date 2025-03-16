@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject } from 'rxjs';
+import { Speaker, SpeakerResponse, SpeakersResponse } from '../speakers/models/speaker.interface';
 
 const SESSIONS_ATTRIBUTES = gql`
   fragment SessionInfo on Session {
@@ -98,10 +99,10 @@ export class ConferenceGraphQLService {
   }
 
   getSpeaker(id: string) {
-    return this.apollo.watchQuery({
+    return this.apollo.watchQuery<SpeakerResponse>({
       query: gql`
-        query speaker($id: ID!) {
-          speaker(id: $id) {
+        query speakerById($id: ID!) {
+          speakerById(id: $id) { 
             ...SpeakerInfo
           }
         }
@@ -112,7 +113,7 @@ export class ConferenceGraphQLService {
   }
 
   getAllSpeakers() {
-    return this.apollo.watchQuery({
+    return this.apollo.watchQuery<SpeakersResponse>({
       query: gql`
         query speakers {
           speakers {

@@ -12,19 +12,19 @@ export const appRoutes: Routes = [
   {
     path: 'conference/sessions',
     loadComponent: () => import('./sessions/sessions.component').then(m => m.SessionsComponent)
-  }
+  },
   // {
   //   path: 'conference/sessions/new',
   //   loadComponent: () => import('./components/sessions/session-form.component').then(m => m.SessionFormComponent)
   // },
-  // {
-  //   path: 'conference/speaker/:id',
-  //   loadComponent: () => import('./components/speaker/speaker.component').then(m => m.SpeakerComponent)
-  // },
-  // {
-  //   path: 'conference/speakers',
-  //   loadComponent: () => import('./components/speaker/speakers-list.component').then(m => m.SpeakersListComponent)
-  // },
+  {
+    path: 'conference/speaker/:id',
+    loadComponent: () => import('./speakers/speaker-item/speaker-item.component').then(m => m.SpeakerItemComponent)
+  },
+  {
+    path: 'conference/speakers',
+    loadComponent: () => import('./speakers/speakers-list.component').then(m => m.SpeakersListComponent)
+  },
   // {
   //   path: 'conference/users',
   //   loadComponent: () => import('./components/user/users-list.component').then(m => m.UsersListComponent)

@@ -1,0 +1,38 @@
+.speaker-info { 
+  padding: 1rem;
+  border-left: 4px solid #ffc107;
+  background-color: rgba(255, 193, 7, 0.05);
+}
+
+.badge-featured { 
+  background-color: gold;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.session-box {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.banner {
+  background-color: #f8f9fa;
+}
+
+.card {
+  border: none;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}

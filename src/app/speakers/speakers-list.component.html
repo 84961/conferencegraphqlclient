@@ -1,0 +1,30 @@
+<section class="banner">
+    <div class="container">
+      <h2>Speakers</h2>
+      <div class="row">
+        @if (loading()) {
+          <p>Loading Speakers...</p>
+        } @else if (error()) {
+          <p>Error loading speakers!</p>
+        } @else {
+          @for (speaker of speakers(); track speaker.id) {
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{speaker.name}}</h5>
+                  <p class="card-text">{{speaker.bio}}</p>
+                  @if (speaker.featured) {
+                    <span class="badge badge-featured">Featured</span>
+                  }
+                  <a [routerLink]="['/conference/speaker', speaker.id]" 
+                     class="btn btn-primary mt-2">
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </section>

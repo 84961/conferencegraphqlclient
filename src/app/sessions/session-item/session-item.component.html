@@ -1,27 +1,31 @@
 <div class="card mb-3">
-  <div class="card-body">
-    <h3 class="card-title">{{session.title}}</h3>
-    <p class="card-text">{{session.track}}</p>
-    <div class="row">
-      <div class="col-md-3">
-        <span class="badge bg-primary">{{session.day}}</span>
-        <span class="badge bg-secondary ms-2">{{session.level}}</span>
-      </div>
-      <div class="col-md-3">
-        <span class="text-muted">Room: {{session.room}}</span>
-      </div>
-      <div class="col-md-3">
-        <span class="text-muted">Time: {{session.startsAt}}</span>
-      </div>
-    </div>
-    <div class="mt-3">
-      <h5>Speakers:</h5>
-      @for (speaker of session.speakers; track speaker.id) {
-        <div class="speaker">
-          <strong>{{speaker.name}}</strong>
-          <p class="text-muted">{{speaker.bio}}</p>
+    <div class="card-body">
+        <h3 class="card-title">{{session.title}}</h3>
+        <p class="card-text">{{session.track}}</p>
+        <div class="row">
+            <div class="col-md-3">
+                <span class="badge bg-primary">{{session.day}}</span>
+                <span class="badge bg-secondary ms-2">{{session.level}}</span>
+            </div>
+            <div class="col-md-3">
+                <span class="text-muted">Room: {{session.room}}</span>
+            </div>
+            <div class="col-md-3">
+                <span class="text-muted">Time: {{session.startsAt}}</span>
+            </div>
         </div>
-      }
+        <div class="mt-3">
+            <h5>Speakers:</h5>
+            @for (speaker of session.speakers; track speaker.id) 
+            {
+            <div class="speaker">
+                <strong>{{speaker.name}}</strong>
+                <p class="text-muted">{{speaker.bio}}</p>
+                <a [routerLink]="['/conference/speaker', speaker.id]" class="btn btn-outline-primary btn-sm">
+                    View Speaker Profile
+                </a>
+            </div>
+            }
+        </div>
     </div>
-  </div>
 </div>
