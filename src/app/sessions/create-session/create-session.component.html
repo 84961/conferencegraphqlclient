@@ -1,0 +1,35 @@
+<div style="width: 100%; display: flex; align-content: center; justify-content: center; padding: 10px;">
+    @if (submitted()) {
+      <p>Session Submitted Successfully!</p>
+    } @else if (error()) {
+      <p>Failed to submit session</p>
+    } @else {
+      <form [formGroup]="sessionForm" (ngSubmit)="onSubmit()" style="width: 100%; max-width: 500px;">
+        <h3 class="h3 mb-3 font-weight-normal">Submit a Session!</h3>
+        
+        <div class="mb-3" style="padding-bottom: 5px;">
+          <label for="inputTitle">Title</label>
+          <input id="inputTitle" class="form-control" formControlName="title" required autofocus>
+        </div>
+        
+        <div class="mb-3" style="padding-bottom: 5px;">
+          <label for="inputDescription">Description</label>
+          <textarea id="inputDescription" class="form-control" formControlName="description" required></textarea>
+        </div>
+        
+        <div class="mb-3" style="padding-bottom: 5px;">
+          <label for="inputDay">Day</label>
+          <input id="inputDay" class="form-control" formControlName="day" required>
+        </div>
+        
+        <div class="mb-3" style="padding-bottom: 5px;">
+          <label for="inputLevel">Level</label>
+          <input id="inputLevel" class="form-control" formControlName="level" required>
+        </div>
+        
+        <div style="justify-content: center; align-content: center">
+          <button type="submit" class="btn btn-primary" [disabled]="!sessionForm.valid">Submit</button>
+        </div>
+      </form>
+    }
+  </div>

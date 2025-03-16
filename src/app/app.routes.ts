@@ -13,10 +13,11 @@ export const appRoutes: Routes = [
     path: 'conference/sessions',
     loadComponent: () => import('./sessions/sessions.component').then(m => m.SessionsComponent)
   },
-  // {
-  //   path: 'conference/sessions/new',
-  //   loadComponent: () => import('./components/sessions/session-form.component').then(m => m.SessionFormComponent)
-  // },
+  {
+    path: 'conference/sessions/new',
+    loadComponent: () => import('./sessions/create-session/create-session.component')
+    .then(m => m.CreateSessionComponent)
+  },
   {
     path: 'conference/speaker/:id',
     loadComponent: () => import('./speakers/speaker-item/speaker-item.component').then(m => m.SpeakerItemComponent)

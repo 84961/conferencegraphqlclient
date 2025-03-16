@@ -47,15 +47,31 @@ const USER_ATTRIBUTES = gql`
   }
 `;
 
+export const ALL_SESSIONS = gql`
+  query sessions($isDescription: Boolean = true) {
+    sessions {
+      ...SessionInfo
+    }
+  }
+  ${SESSIONS_ATTRIBUTES}
+`;
+
+export interface SessionInput {
+  title: string;
+  description: string;
+  day: string;
+  level: string;
+}
+
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ConferenceGraphQLService {
-  private apollo = inject(Apollo);
+    private apollo = inject(Apollo);
 
-  getSessions(day: string, isDescription: boolean = false) {
-    return this.apollo.watchQuery<SessionsByDayResponse>({
-      query: gql`
+    getSessions(day: string, isDescription: boolean = false) {
+        return this.apollo.watchQuery<SessionsByDayResponse>({
+            query: gql`
         query sessions($day: String!, $isDescription: Boolean!) {
           intro: sessions(day: $day, level: "Introductory and overview") {
             ...SessionInfo
@@ -69,13 +85,13 @@ export class ConferenceGraphQLService {
         }
         ${SESSIONS_ATTRIBUTES}
       `,
-      variables: { day, isDescription }
-    }).valueChanges;
-  }
+            variables: { day, isDescription }
+        }).valueChanges;
+    }
 
-  getAllSessions(isDescription: boolean = false) {
-    return this.apollo.watchQuery<SessionResponse>({
-      query: gql`
+    getAllSessions(isDescription: boolean = false) {
+        return this.apollo.watchQuery<SessionResponse>({
+            query: gql`
         query sessions($isDescription: Boolean!) {
           sessions {
             ...SessionInfo
@@ -83,27 +99,31 @@ export class ConferenceGraphQLService {
         }
         ${SESSIONS_ATTRIBUTES}
       `,
-      variables: { isDescription }
-    }).valueChanges;
-  }
 
-  createSession(session: any) {
-    return this.apollo.mutate({
-      mutation: gql`
-        mutation createSession($session: SessionInput!) {
+            variables: { isDescription }
+        }).valueChanges;
+    }
+
+    createSession(session: SessionInput) {
+        return this.apollo.mutate<{createSession: Session}>({
+            mutation: gql`
+        mutation createSession($session: SessionInput!, $isDescription: Boolean = true) {
           createSession(session: $session) {
             ...SessionInfo
           }
         }
         ${SESSIONS_ATTRIBUTES}
       `,
-      variables: { session }
-    });
-  }
+            variables: { 
+                session,
+                isDescription: true
+            }
+        });
+    }
 
-  getSpeaker(id: string) {
-    return this.apollo.watchQuery<SpeakerResponse>({
-      query: gql`
+    getSpeaker(id: string) {
+        return this.apollo.watchQuery<SpeakerResponse>({
+            query: gql`
         query speakerById($id: ID!) {
           speakerById(id: $id) { 
             ...SpeakerInfo
@@ -111,13 +131,13 @@ export class ConferenceGraphQLService {
         }
         ${SPEAKER_ATTRIBUTES}
       `,
-      variables: { id }
-    }).valueChanges;
-  }
+            variables: { id }
+        }).valueChanges;
+    }
 
-  getAllSpeakers() {
-    return this.apollo.watchQuery<SpeakersResponse>({
-      query: gql`
+    getAllSpeakers() {
+        return this.apollo.watchQuery<SpeakersResponse>({
+            query: gql`
         query speakers {
           speakers {
             ...SpeakerInfo
@@ -125,12 +145,12 @@ export class ConferenceGraphQLService {
         }
         ${SPEAKER_ATTRIBUTES}
       `
-    }).valueChanges;
-  }
+        }).valueChanges;
+    }
 
-  getFeaturedSpeakers() {
-    return this.apollo.watchQuery({
-      query: gql`
+    getFeaturedSpeakers() {
+        return this.apollo.watchQuery({
+            query: gql`
         query featuredSpeakers {
           speakers(featured: true) {
             ...SpeakerInfo
@@ -138,12 +158,12 @@ export class ConferenceGraphQLService {
         }
         ${SPEAKER_ATTRIBUTES}
       `
-    }).valueChanges;
-  }
+        }).valueChanges;
+    }
 
-  getUser(id: string) {
-    return this.apollo.watchQuery({
-      query: gql`
+    getUser(id: string) {
+        return this.apollo.watchQuery({
+            query: gql`
         query user($id: ID!) {
           user(id: $id) {
             ...UserInfo
@@ -151,13 +171,13 @@ export class ConferenceGraphQLService {
         }
         ${USER_ATTRIBUTES}
       `,
-      variables: { id }
-    }).valueChanges;
-  }
+            variables: { id }
+        }).valueChanges;
+    }
 
-  getAllUsers() {
-    return this.apollo.watchQuery({
-      query: gql`
+    getAllUsers() {
+        return this.apollo.watchQuery({
+            query: gql`
         query users {
           users {
             ...UserInfo
@@ -165,6 +185,6 @@ export class ConferenceGraphQLService {
         }
         ${USER_ATTRIBUTES}
       `
-    }).valueChanges;
-  }
+        }).valueChanges;
+    }
 }
