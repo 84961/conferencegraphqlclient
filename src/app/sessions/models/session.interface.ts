@@ -14,3 +14,13 @@ export interface Speaker {
   name: string;
   bio: string;
 }
+
+export interface SessionResponse {
+  sessions: Session[];
+}
+
+export interface SessionsByDayResponse {
+  intro: Session[];
+  intermediate: Session[];
+  advanced: Session[];
+}

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject } from 'rxjs';
 import { Speaker, SpeakerResponse, SpeakersResponse } from '../speakers/models/speaker.interface';
+import { Session, SessionResponse, SessionsByDayResponse } from '../sessions/models/session.interface';
 
 const SESSIONS_ATTRIBUTES = gql`
   fragment SessionInfo on Session {
@@ -52,7 +53,7 @@ export class ConferenceGraphQLService {
   private apollo = inject(Apollo);
 
   getSessions(day: string) {
-    return this.apollo.watchQuery({
+    return this.apollo.watchQuery<SessionsByDayResponse>({
       query: gql`
         query sessions($day: String!) {
           intro: sessions(day: $day, level: "Introductory and overview") {
@@ -72,7 +73,7 @@ export class ConferenceGraphQLService {
   }
 
   getAllSessions() {
-    return this.apollo.watchQuery({
+    return this.apollo.watchQuery<SessionResponse>({
       query: gql`
         query sessions {
           sessions {

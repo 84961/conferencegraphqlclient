@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ConferenceGraphQLService } from '../services/conference-graphql-service'
 import { SessionItemComponent } from './session-item/session-item.component';
-import { Session } from './models/session.interface';
-import { SessionsService } from './sessions.service';
+import { Session, SessionResponse, SessionsByDayResponse } from './models/session.interface';
+
 
 @Component({
   selector: 'app-sessions',
@@ -14,7 +14,7 @@ import { SessionsService } from './sessions.service';
   styleUrls: ['./sessions.component.scss']
 })
 export class SessionsComponent implements OnInit {
-  private graphQLService = inject(SessionsService);
+  private graphQLService = inject(ConferenceGraphQLService);
 
   selectedDay = signal<string>('All');
   loading = signal(true);
@@ -37,39 +37,40 @@ export class SessionsComponent implements OnInit {
     this.error.set(null); // Reset error state
 
     if (this.selectedDay() === 'All') {
-      this.graphQLService.getSessions().subscribe({
-        next: (sessions) => {
-          console.log('Received sessions:', sessions);
-          this.sessions.set(sessions);
+      this.graphQLService.getAllSessions().subscribe({
+        next: (result) => {
+          this.sessions.set(result.data.sessions);
           this.loading.set(false);
         },
         error: (err) => {
           console.error('Error in component:', err);
           this.error.set(err);
           this.loading.set(false);
-        },
-        complete: () => this.loading.set(false)
+        }
       });
     } else {
-      this.graphQLService.getSessionsByDay(this.selectedDay()).subscribe({
-        next: (sessions) => {
-          console.log('Received sessions for day:', sessions);
-          this.sessions.set(sessions);
+      this.graphQLService.getSessions(this.selectedDay()).subscribe({
+        next: (result) => {
+          const allSessions = [
+            ...result.data.intro,
+            ...result.data.intermediate,
+            ...result.data.advanced
+          ];
+          this.sessions.set(allSessions);
           this.loading.set(false);
         },
         error: (err) => {
           console.error('Error in component:', err);
           this.error.set(err);
           this.loading.set(false);
-        },
-        complete: () => this.loading.set(false)
+        }
       });
     }
   }
 
   introSessions() {
     return this.sessions().filter(session => 
-      session.day === this.selectedDay() && session.level === 'Introductory');
+      session.day === this.selectedDay() && session.level === 'Introductory and overview');
   }
 
   intermediateSessions() {
