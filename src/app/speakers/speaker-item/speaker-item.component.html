@@ -18,9 +18,16 @@
                         <div class="speaker-info">
                             <h2 class="card-title mb-3">{{speaker()?.name}}</h2>
                             <p class="card-text lead mb-3">{{speaker()?.bio}}</p>
-                            @if (speaker()?.featured) {
-                            <span class="badge bg-warning text-dark mb-3">Featured Speaker</span>
-                            }
+                            <div class="featured-section">
+                                <button class="btn" [class.btn-warning]="speaker()?.featured" 
+                                        [class.btn-outline-warning]="!speaker()?.featured"
+                                        (click)="toggleFeature()">
+                                  {{ speaker()?.featured ? 'Remove from Featured' : 'Mark as Featured' }}
+                                </button>
+                                @if (speaker()?.featured) {
+                                  <span class="badge badge-featured">Featured Speaker</span>
+                                }
+                              </div>
                         </div>
                     </div>
                     <div class="col-md-6">

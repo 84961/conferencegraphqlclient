@@ -63,11 +63,35 @@ export interface SessionInput {
   level: string;
 }
 
+export const ALL_SPEAKERS = gql`
+  query speakers {
+    speakers {
+      ...SpeakerInfo
+    }
+  }
+  ${SPEAKER_ATTRIBUTES}
+`;
+
 @Injectable({
     providedIn: 'root'
 })
 export class ConferenceGraphQLService {
     private apollo = inject(Apollo);
+
+    markFeatured(speakerId: string, featured: boolean) {
+        return this.apollo.mutate({
+          mutation: gql`
+            mutation markFeatured($speakerId: ID!, $featured: Boolean!) {
+              markFeatured(speakerId: $speakerId, featured: $featured) {
+                ...SpeakerInfo
+              }
+            }
+            ${SPEAKER_ATTRIBUTES}
+          `,
+          variables: { speakerId, featured },
+          refetchQueries: [{ query: ALL_SPEAKERS }]
+        });
+      }
 
     getSessions(day: string, isDescription: boolean = false) {
         return this.apollo.watchQuery<SessionsByDayResponse>({

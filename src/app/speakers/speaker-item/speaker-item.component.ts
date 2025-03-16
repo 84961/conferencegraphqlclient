@@ -26,6 +26,20 @@ export class SpeakerItemComponent {
     }
   }
 
+  toggleFeature() {
+    if (this.speaker()) {
+      const { id, featured } = this.speaker()!;
+      this.graphQLService.markFeatured(id, !featured).subscribe({
+        next: (result: any) => {
+          this.speaker.set(result.data.markFeatured);
+        },
+        error: (err) => {
+          this.error.set(err);
+        }
+      });
+    }
+  }
+
   private loadSpeaker(id: string) {
     this.loading.set(true);
     this.graphQLService.getSpeaker(id).subscribe({

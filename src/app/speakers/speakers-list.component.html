@@ -13,11 +13,11 @@
                 <div class="card-body">
                   <h5 class="card-title">{{speaker.name}}</h5>
                   <p class="card-text">{{speaker.bio}}</p>
-                  @if (speaker.featured) {
-                    <span class="badge badge-featured">Featured</span>
+                  @if (speaker.featured === true) {
+                    <span class="badge bg-warning text-dark mb-2">Featured</span>
                   }
                   <a [routerLink]="['/conference/speaker', speaker.id]" 
-                     class="btn btn-primary mt-2">
+                     class="btn btn-primary mt-2 d-block">
                     View Profile
                   </a>
                 </div>
@@ -27,4 +27,4 @@
         }
       </div>
     </div>
-  </section>
+</section>
