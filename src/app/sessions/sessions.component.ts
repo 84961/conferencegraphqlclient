@@ -37,7 +37,7 @@ export class SessionsComponent implements OnInit {
     this.error.set(null); // Reset error state
 
     if (this.selectedDay() === 'All') {
-      this.graphQLService.getAllSessions().subscribe({
+      this.graphQLService.getAllSessions(true).subscribe({
         next: (result) => {
           this.sessions.set(result.data.sessions);
           this.loading.set(false);
@@ -49,7 +49,7 @@ export class SessionsComponent implements OnInit {
         }
       });
     } else {
-      this.graphQLService.getSessions(this.selectedDay()).subscribe({
+      this.graphQLService.getSessions(this.selectedDay(), false).subscribe({
         next: (result) => {
           const allSessions = [
             ...result.data.intro,

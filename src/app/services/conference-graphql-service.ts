@@ -12,6 +12,7 @@ const SESSIONS_ATTRIBUTES = gql`
     day
     room
     level
+    description @include(if: $isDescription)
     speakers {
       id
       name
@@ -52,10 +53,10 @@ const USER_ATTRIBUTES = gql`
 export class ConferenceGraphQLService {
   private apollo = inject(Apollo);
 
-  getSessions(day: string) {
+  getSessions(day: string, isDescription: boolean = false) {
     return this.apollo.watchQuery<SessionsByDayResponse>({
       query: gql`
-        query sessions($day: String!) {
+        query sessions($day: String!, $isDescription: Boolean!) {
           intro: sessions(day: $day, level: "Introductory and overview") {
             ...SessionInfo
           }
@@ -68,20 +69,21 @@ export class ConferenceGraphQLService {
         }
         ${SESSIONS_ATTRIBUTES}
       `,
-      variables: { day }
+      variables: { day, isDescription }
     }).valueChanges;
   }
 
-  getAllSessions() {
+  getAllSessions(isDescription: boolean = false) {
     return this.apollo.watchQuery<SessionResponse>({
       query: gql`
-        query sessions {
+        query sessions($isDescription: Boolean!) {
           sessions {
             ...SessionInfo
           }
         }
         ${SESSIONS_ATTRIBUTES}
-      `
+      `,
+      variables: { isDescription }
     }).valueChanges;
   }
 

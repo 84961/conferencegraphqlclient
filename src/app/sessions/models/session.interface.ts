@@ -3,6 +3,7 @@ export interface Session {
   title: string;
   track: string;  // changed from abstract
   day: string;
+  description?: string;
   level: string;
   room: string;
   startsAt: string;
