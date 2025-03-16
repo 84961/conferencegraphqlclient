@@ -1,0 +1,13 @@
+#wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+  }
+  .footer {
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+    margin-top: 2rem;
+  }

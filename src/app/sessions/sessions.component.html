@@ -1,0 +1,49 @@
+<section class="banner">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col text-center">
+        <a class="btn btn-primary btn-lg" routerLink="/conference/sessions/new">
+          Submit a Session!
+        </a>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col d-flex justify-content-center gap-2">
+        <button type="button" (click)="setDay('All')" 
+          class="btn btn-warning btn-md" 
+          [class.active]="selectedDay() === 'All'">All Sessions</button>
+        <button type="button" (click)="setDay('Wednesday')" 
+          class="btn btn-warning btn-md"
+          [class.active]="selectedDay() === 'Wednesday'">Wednesday</button>
+        <button type="button" (click)="setDay('Thursday')" 
+          class="btn btn-warning btn-md"
+          [class.active]="selectedDay() === 'Thursday'">Thursday</button>
+        <button type="button" (click)="setDay('Friday')" 
+          class="btn btn-warning btn-md"
+          [class.active]="selectedDay() === 'Friday'">Friday</button>
+      </div>
+    </div>
+    
+    @if (loading()) {
+      <p>Loading Sessions..</p>
+    } @else if (error()) {
+      <p>Error loading sessions!</p>
+    } @else {
+      @if (selectedDay() === 'All') {
+        @for (session of sessions(); track session.id) {
+          <app-session-item [session]="session" />
+        }
+      } @else {
+        @for (session of introSessions(); track session.id) {
+          <app-session-item [session]="session" />
+        }
+        @for (session of intermediateSessions(); track session.id) {
+          <app-session-item [session]="session" />
+        }
+        @for (session of advancedSessions(); track session.id) {
+          <app-session-item [session]="session" />
+        }
+      }
+    }
+  </div>
+</section>

@@ -1,0 +1,121 @@
+query retrieveAllSchemaTypes {
+   __schema {
+      types {
+	       name
+	     }
+   }
+}
+
+
+query retrieveAllSchemaTypes {
+   __schema {
+      types {
+	       name
+         kind
+        description
+	     }
+   }
+}
+
+
+query retrieveQueryAndMutationTypes {
+  __schema {
+    queryType {
+      fields {
+        name
+        description
+      }
+    }
+  }
+}
+
+
+query retrieveQueryAndMutationTypes {
+  __schema {
+    queryType {
+      fields {
+        name
+        description
+      }
+    }
+    mutationType {
+      fields {
+        name
+        description
+      }
+    }
+  }
+}
+
+
+
+query retrieveTypeInfo {
+  __type(name: "Session") {
+    fields {
+      name
+    }
+  }
+}
+
+
+
+query retrieveTypeInfo {
+  sessionInfo: __type(name: "Session") {
+    fields {
+	  name
+	  description
+	}
+  }
+  speakerInfo: __type(name: "Speaker") {
+    fields {
+	  name
+	  description
+	}
+  }
+}
+
+
+
+query retrieveDirectives {
+  __schema {
+     directives {
+	   name
+      description
+	 }
+  }
+}
+
+
+query retrieveDirectives {
+  __schema {
+    directives {
+      name
+      description
+      args {
+        name
+        description
+      }
+    }
+  }
+}
+
+
+#retrive session with title and day
+
+query retrieveSessions($with_day: Boolean!) {
+  sessions {
+    title
+    day @include(if: $with_day)
+  }
+}
+
+
+{
+  "with_day": true
+}
+
+
+npm install apollo-codegen
+
+apollo-codegen introspect-schema http://localhost:4000/graphql --output schema.json
+

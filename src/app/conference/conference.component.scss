@@ -1,0 +1,16 @@
+.hero-link {
+    border: solid 1px white;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #0D1424;
+    color: white;
+    text-decoration: none;
+    margin: 10px 0;
+  }
+  .hero-link:hover {
+    background-color: #1D2434;
+    color: white;
+    text-decoration: none;
+  }

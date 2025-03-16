@@ -1,0 +1,49 @@
+import { ApplicationConfig, inject } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
+import { appRoutes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(appRoutes),
+    provideHttpClient(),
+    provideApollo(() => {
+      const httpLink = inject(HttpLink); // Properly inject HttpLink
+      const cache = new InMemoryCache({
+        typePolicies: {
+          Session: {
+            // Define unique identifier for Session type
+            keyFields: ['id'],
+            fields: {
+              // Configure field-level caching policies
+              speakers: {
+                merge(existing = [], incoming: any[]) {
+                  return incoming; // Replace existing with incoming data
+                }
+              }
+            }
+          },
+          Query: {
+            fields: {
+              sessions: {
+                // Cache separate results for different variables
+                keyArgs: ['day'],
+                // Merge function for paginated results if needed
+                merge(existing = [], incoming: any[]) {
+                  return incoming; // Replace existing with incoming data
+                },
+              }
+            }
+          }
+        }
+      });
+      return {
+        cache,
+        link: httpLink.create({ uri: 'http://localhost:4000/graphql/' }),
+      };
+    }),
+  ],
+};

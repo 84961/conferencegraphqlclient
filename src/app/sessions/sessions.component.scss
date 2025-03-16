@@ -1,0 +1,11 @@
+.btn {
+  min-width: 120px;
+  
+  &.active {
+    color: white;
+  }
+}
+
+.gap-2 {
+  gap: 0.75rem !important;
+}
